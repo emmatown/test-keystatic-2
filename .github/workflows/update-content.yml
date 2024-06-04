@@ -29,7 +29,7 @@ jobs:
         env:
           SSH_KEY: ${{ secrets.CONTENT_REPO_DEPLOY_KEY }}
 
-      - run: git branch -D update-content &>/dev/null
+      - run: git branch -D update-content || true
 
       - run: git checkout -b update-content
 
