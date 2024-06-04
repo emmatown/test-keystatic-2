@@ -7,6 +7,9 @@ concurrency:
   group: update-content
   cancel-in-progress: true
 
+permissions:
+  contents: write
+
 jobs:
   update_content:
     name: Update Content
