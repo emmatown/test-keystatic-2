@@ -34,8 +34,8 @@ jobs:
           SSH_KEY: ${{ secrets.CONTENT_REPO_DEPLOY_KEY }}
 
       - run: |
-          git config --global user.email "github-actions[bot]"
-          git config --global user.name "github-actions[bot]@users.noreply.github.com"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
 
       - run: git branch -D update-content || true
 
