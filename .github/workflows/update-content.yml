@@ -36,4 +36,4 @@ jobs:
 
       - run: git subtree pull --prefix content content_repo:emmatown/keystatic-content-test main --squash
 
-      - run: git push
+      - run: git push --set-upstream origin update-content
