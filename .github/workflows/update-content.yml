@@ -15,6 +15,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: true
+          fetch-depth: 0
       - name: Add subtree deploy key
         run: |
           mkdir -p ~/.ssh/
