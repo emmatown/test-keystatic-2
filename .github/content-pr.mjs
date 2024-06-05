@@ -14,20 +14,23 @@ export async function createOrUpdateContentPR(github) {
     q: `repo:${repo}+state:open+head:${contentUpdateBranch}+base:${baseBranch}+is:pull-request`,
     per_page: 1,
   });
-  if (pulls.data.items.length) {
-    const pr = pulls.data.items[0];
-    console.log(`PR already exists: ${pr.html_url}`);
-    return;
-  }
   const [owner, repoName] = repo.split("/");
+  const existingPr = pulls.data.items[0];
+  let prNodeId;
+  if (existingPr) {
+    prNodeId = existingPr.node_id;
+    console.log(`PR already exists: ${existingPr.html_url}`);
+  } else {
+    const pull = await github.rest.pulls.create({
+      base: baseBranch,
+      head: contentUpdateBranch,
+      owner,
+      repo: repoName,
+      title: "Update content",
+    });
+    prNodeId = pull.data.node_id;
+  }
 
-  const pull = await github.rest.pulls.create({
-    base: baseBranch,
-    head: contentUpdateBranch,
-    owner,
-    repo: repoName,
-    title: "Update content",
-  });
   await github.graphql(
     gql`
       mutation ($id: ID!) {
@@ -38,8 +41,14 @@ export async function createOrUpdateContentPR(github) {
         }
       }
     `,
-    { id: pull.data.node_id }
+    { id: prNodeId }
   );
+  await github.rest.actions.createWorkflowDispatch({
+    owner,
+    repo: repoName,
+    workflow_id: "build.yml",
+    ref: "update-content",
+  });
 }
 
 // this is just for syntax highlighting and formatting
