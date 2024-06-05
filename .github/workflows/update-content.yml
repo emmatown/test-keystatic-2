@@ -44,3 +44,10 @@ jobs:
       - run: git subtree pull --prefix content content_repo:emmatown/keystatic-content-test main --squash
 
       - run: git push --force --set-upstream origin update-content
+
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const { createOrUpdateContentPR } = await import('${{ github.workspace }}/.github/content-pr.mjs')
+
+            await createOrUpdateContentPR(github)
