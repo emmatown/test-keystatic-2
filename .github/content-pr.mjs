@@ -43,12 +43,6 @@ export async function createOrUpdateContentPR(github) {
     `,
     { id: prNodeId }
   );
-  await github.rest.actions.createWorkflowDispatch({
-    owner,
-    repo: repoName,
-    workflow_id: "build.yml",
-    ref: "update-content",
-  });
 }
 
 // this is just for syntax highlighting and formatting
