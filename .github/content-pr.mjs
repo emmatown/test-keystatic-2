@@ -35,7 +35,7 @@ export async function createOrUpdateContentPR(github) {
     gql`
       mutation ($id: ID!) {
         enablePullRequestAutoMerge(
-          input: { pullRequestId: $id, mergeMethod: REBASE }
+          input: { pullRequestId: $id, mergeMethod: SQUASH }
         ) {
           clientMutationId
         }
