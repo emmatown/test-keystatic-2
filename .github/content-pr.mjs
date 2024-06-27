@@ -2,14 +2,14 @@
 
 /**
  * @param {ReturnType<typeof import('@actions/github').getOctokit>} github
+ * @param {string} baseBranch
  */
-export async function createOrUpdateContentPR(github) {
+export async function createOrUpdateContentPR(github, baseBranch) {
   const repo = process.env.GITHUB_REPOSITORY;
   if (!repo) {
     throw new Error("GITHUB_REPOSITORY is not set");
   }
-  const contentUpdateBranch = "update-content";
-  const baseBranch = "main";
+  const contentUpdateBranch = `update-content-${baseBranch}`;
   const pulls = await github.rest.search.issuesAndPullRequests({
     q: `repo:${repo}+state:open+head:${contentUpdateBranch}+base:${baseBranch}+is:pull-request`,
     per_page: 1,
