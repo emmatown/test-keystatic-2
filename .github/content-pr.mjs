@@ -26,7 +26,7 @@ export async function createOrUpdateContentPR(github, baseBranch) {
       head: contentUpdateBranch,
       owner,
       repo: repoName,
-      title: "Update content",
+      title: `Update content (${baseBranch})`,
     });
     prNodeId = pull.data.node_id;
   }
