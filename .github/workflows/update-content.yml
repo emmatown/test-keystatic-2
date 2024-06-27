@@ -24,6 +24,7 @@ jobs:
           persist-credentials: true
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           fetch-depth: 0
+          ref: ${{matrix.branch}}
       - name: Add subtree deploy key
         run: |
           mkdir -p ~/.ssh/
